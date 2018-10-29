@@ -1,0 +1,5 @@
+cmake-build-debug
+Build/Linux
+Build/Windows
+.vscode
+.idea
