@@ -21,6 +21,7 @@
 #include "EasyBMP.h"
 #include <exception>
 #include <fstream>
+#include <memory>
 
 using namespace std;
 
