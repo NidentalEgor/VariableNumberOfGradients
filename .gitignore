@@ -1,5 +1,5 @@
 cmake-build-debug
 Build/Linux
-Build/Windows
+Build/VS_15
 .vscode
 .idea
