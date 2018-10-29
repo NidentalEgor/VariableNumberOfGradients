@@ -12,6 +12,7 @@
 #include <array>
 #include <tuple>
 
+#include "Logger.h"
 #include "../Lib/EasyBMP/EasyBMP.h"
 
 enum class PixelColor
@@ -37,28 +38,36 @@ enum class PointsOfCompass
 };
 
 using Gradients = std::array<uint8_t, static_cast<long unsigned int>( PointsOfCompass::PointsOfCompass_Count )>;
-//using Sums = std::tuple<uint8_t, uint8_t, uint8_t>;
+
 struct Sums
 {
-    Sums() : Red(0), Green(0), Blue(0) {}
+    Sums() : Red( 0 ), Green( 0 ), Blue( 0 ) {}
+
+    Sums &operator += ( const Sums& other )
+    {
+        Red += other.Red;
+        Green += other.Green;
+        Blue += other.Blue;
+
+        return *this;
+    }
 
     uint8_t Red;
     uint8_t Green;
     uint8_t Blue;
 };
 
+using Pixel = Sums;
 
-class VNG {
+class VNG : public Traceble {
 public:
     VNG( const std::string file_path )
     {
         picture.ReadFromFile( file_path );
-        for (int i = 0; i < 10; ++i) {
-            std::cout <<
-                (unsigned)picture.GetPixel( 0, i ).Red << " " <<
-                (unsigned)picture.GetPixel( 0, i ).Green << " " <<
-                (unsigned)picture.GetPixel( 0, i ).Blue << std::endl;
-        }
+
+        Log( std::string( "width = " ) + std::to_string( picture.TellWidth() ) + " height = " + std::to_string( picture.TellHeight() ) );
+
+        result_picture.SetSize( picture.TellWidth(), picture.TellHeight() );
     }
 
     void Process();
@@ -82,10 +91,8 @@ public:
         const PixelColor pixel_color );
 
 private:
-    std::vector<std::vector<uint8_t>> picture1;
-    size_t height;
-    size_t width;
     BMP picture;
+    BMP result_picture;
 };
 
 

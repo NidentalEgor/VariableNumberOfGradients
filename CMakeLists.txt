@@ -7,6 +7,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(Lib)
 
-add_executable(VNG Main.cpp Src/VNG.cpp Inc/VNG.h)
+add_executable(VNG Main.cpp Src/VNG.cpp Inc/VNG.h Inc/Logger.h)
 
 target_link_libraries(VNG EasyBMP)
