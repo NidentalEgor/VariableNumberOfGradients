@@ -22,6 +22,8 @@
 #include <exception>
 #include <fstream>
 #include <memory>
+#include <string>
+#include <iso646.h>
 
 using namespace std;
 
