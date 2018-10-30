@@ -16,18 +16,21 @@ void VNG::Process() {
 //                __LINE__,
 //                std::string( "i = " ) + std::to_string( i ) + std::string( " j = " ) + std::to_string( j ) );
 
-            if ( i % 2 == 1 )
+            if ( i % 2 == 0 )
             {
-                j % 2 == 0 ? ProcessRedPixel( /*i, j*/j, i ) : ProcessGreenPixel( /*i, j*/j, i );
+                j % 2 == 0 ? ProcessRedPixel( i, j ) : ProcessGreenPixel( i, j );
             }
             else
             {
-                j % 2 == 1 ? ProcessGreenPixel( /*i, j*/j, i ) : ProcessBluePixel( /*i, j*/j, i );
+                j % 2 == 0 ? ProcessGreenPixel( i, j ) : ProcessBluePixel( i, j );
             }
         }
     }
+}
 
-    result_picture.WriteToFile( "/home/egor/Repositories/ImageProcessing/test.bmp" );
+void VNG::Write( const std::string& file_path )
+{
+    result_picture.WriteToFile( file_path );
 }
 
 inline uint8_t CalculateGradient(

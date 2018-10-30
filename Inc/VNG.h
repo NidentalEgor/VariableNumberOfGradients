@@ -71,6 +71,7 @@ public:
     }
 
     void Process();
+    void Write( const std::string& file_path );
     void ProcessRedPixel( const size_t i, const size_t j );
     void ProcessGreenPixel( const size_t i, const size_t j );
     void ProcessBluePixel( const size_t i, const size_t j );

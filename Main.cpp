@@ -3,7 +3,8 @@
 
 int main()
 {
-    VNG vng("/home/egor/Repositories/BayerAlgorithm/RGB_CFA.bmp");
+    VNG vng("/home/egor/Repositories/ImageProcessing/RGB_CFA.bmp");
     vng.Process();
+    vng.Write("/home/egor/Repositories/ImageProcessing/test.bmp");
     return 0;
 }
