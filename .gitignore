@@ -3,3 +3,4 @@ Build/Linux
 Build/VS_15
 .vscode
 .idea
+*.bmp

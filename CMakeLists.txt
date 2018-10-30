@@ -10,3 +10,9 @@ add_subdirectory(Lib)
 add_executable(VNG Main.cpp Src/VNG.cpp Inc/VNG.h Inc/Logger.h)
 
 target_link_libraries(VNG EasyBMP)
+
+add_library(VNG_lib Main.cpp Src/VNG.cpp Inc/VNG.h Inc/Logger.h)
+
+target_link_libraries(VNG_lib EasyBMP)
+
+add_subdirectory(Tests)
