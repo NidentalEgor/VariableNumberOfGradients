@@ -33,7 +33,7 @@ void VNG::Write( const std::string& file_path )
     result_picture.WriteToFile( file_path );
 }
 
-inline uint8_t CalculateGradient(
+inline uint16_t CalculateGradient(
     const uint8_t par1,
     const uint8_t par2,
     const uint8_t par3,
@@ -55,7 +55,21 @@ inline uint8_t CalculateGradient(
            abs( par11 - par12 ) / 2;
 }
 
-
+uint16_t CalculateGradientGreenNotStr(
+        const uint8_t par1,
+        const uint8_t par2,
+        const uint8_t par3,
+        const uint8_t par4,
+        const uint8_t par5,
+        const uint8_t par6,
+        const uint8_t par7,
+        const uint8_t par8 )
+{
+    return abs( par1 - par2 ) +
+            abs( par3 - par4 ) +
+            abs( par5 - par6 ) +
+            abs( par7 - par8 );
+}
 
 void VNG::ProcessPixel( const size_t i, const size_t j, const PixelColor pixel_color )
 {
@@ -63,22 +77,64 @@ void VNG::ProcessPixel( const size_t i, const size_t j, const PixelColor pixel_c
 
     //Log( "Before gradients calculating" );
 
-    // gradientN
-    gradients[0] = CalculateGradient( G8, G18, R3, R13, B7, B17, B9, B19, G2, G12, G4, G14 );
-    // gradientE
-    gradients[1] = CalculateGradient( G14, G12, R15, R13, B9, B7, B19, B17, G10, G8, G20, G18 );
-    // gradientS
-    gradients[2] = CalculateGradient( G18, G8, R23, R13, B19, B9, B17, B7, G24, G14, G22, G12 );
-    // gradientW
-    gradients[3] = CalculateGradient( G12, G14, R11, R13, B17, B19, B7, B9, G16, G18, G6, G8 );
-    // gradientNE
-    gradients[4] = CalculateGradient( B9, B17, R5, R13, G8, G12, G14, G18, G4, G8, G10, G14 );
-    // gradientSE
-    gradients[5] = CalculateGradient( B19, B7, R25, R13, G12, G18, G18, G12, G20, G14, G24, G18 );
-    // gradientNW
-    gradients[6] = CalculateGradient( B7, B19, R1, R13, G12, G18, G8, G14, G6, G12, G2, G8 );
-    // gradientSW
-    gradients[7] = CalculateGradient( B17, B9, R21, R13, G18, G14, G12, G10, G22, G18, G16, G12 );
+    if ( pixel_color == PixelColor::Red )
+    {
+        // gradientN
+        gradients[0] = CalculateGradient( G8, G18, R3, R13, B7, B17, B9, B19, G2, G12, G4, G14 );
+        // gradientE
+        gradients[1] = CalculateGradient( G14, G12, R15, R13, B9, B7, B19, B17, G10, G8, G20, G18 );
+        // gradientS
+        gradients[2] = CalculateGradient( G18, G8, R23, R13, B19, B9, B17, B7, G24, G14, G22, G12 );
+        // gradientW
+        gradients[3] = CalculateGradient( G12, G14, R11, R13, B17, B19, B7, B9, G16, G18, G6, G8 );
+        // gradientNE
+        gradients[4] = CalculateGradient( B9, B17, R5, R13, G8, G12, G14, G18, G4, G8, G10, G14 );
+        // gradientSE
+        gradients[5] = CalculateGradient( B19, B7, R25, R13, G12, G18, G18, G12, G20, G14, G24, G18 );
+        // gradientNW
+        gradients[6] = CalculateGradient( B7, B19, R1, R13, G12, G18, G8, G14, G6, G12, G2, G8 );
+        // gradientSW
+        gradients[7] = CalculateGradient( B17, B9, R21, R13, G18, G14, G12, G10, G22, G18, G16, G12 );
+    }
+    else if ( pixel_color == PixelColor::Blue )
+    {
+        // gradientN
+        gradients[0] = CalculateGradient( G8, G18, B3, B13, R7, R17, R9, R19, G2, G12, G4, G14 );
+        // gradientE
+        gradients[1] = CalculateGradient( G14, G12, B15, B13, R9, R7, R19, R17, G10, G8, G20, G18 );
+        // gradientS
+        gradients[2] = CalculateGradient( G18, G8, B23, B13, R19, R9, R17, R7, G24, G14, G22, G12 );
+        // gradientW
+        gradients[3] = CalculateGradient( G12, G14, B11, B13, R17, R19, R7, R9, G16, G18, G6, G8 );
+        // gradientNE
+        gradients[4] = CalculateGradient( R9, R17, B5, B13, G8, G12, G14, G18, G4, G8, G10, G14 );
+        // gradientSE
+        gradients[5] = CalculateGradient( R19, R7, B25, B13, G12, G18, G18, G12, G20, G14, G24, G18 );
+        // gradientNW
+        gradients[6] = CalculateGradient( R7, R19, B1, B13, G12, G18, G8, G14, G6, G12, G2, G8 );
+        // gradientSW
+        gradients[7] = CalculateGradient( R17, R9, B21, B13, G18, G14, G12, G10, G22, G18, G16, G12 );
+    }
+    else // PixelColor::Green
+    {
+        // gradientN
+        gradients[0] = CalculateGradient( R8, R18, G3, G13, G7, G17, G9, G19, B2, B12, B4, B14 );
+        // gradientE
+        gradients[1] = CalculateGradient( B14, B12, G15, G13, G9, G7, G19, G17, R10, R8, R20, R18 );
+        // gradientS
+        gradients[2] = CalculateGradient( R18, R8, G23, G13, G17, G7, G19, G9, B22, B12, B24, B14 );
+        // gradientW
+        gradients[3] = CalculateGradient( B12, B14, G11, G13, G7, G9, G17, G19, R6, R8, R16, R18 );
+        // gradientNE
+        gradients[4] = CalculateGradientGreenNotStr( G9, G17, G5, G13, B4, B12, R10, R18 );
+        // gradientSE
+        gradients[5] = CalculateGradientGreenNotStr( G19, G7, G25, G13, B24, B12, R20, R8 );
+        // gradientNW
+        gradients[6] = CalculateGradientGreenNotStr( G7, G19, G1, G13, B2, B14, R6, R18 );
+        // gradientSW
+        gradients[7] = CalculateGradientGreenNotStr( G17, G9, G21, G13, B22, B14, R16, R8 );
+    }
+
 
     //Log( "After gradients calculating" );
 
@@ -126,7 +182,7 @@ void VNG::ProcessPixel( const size_t i, const size_t j, const PixelColor pixel_c
     pixel.Green = result.Green;
     pixel.Blue = result.Blue;
 
-    result_picture.SetPixel( i, j, pixel );
+    result_picture.SetPixel( /*i, j,*/j, i, pixel );
 }
 
 void VNG::ProcessRedPixel(const size_t i, const size_t j)
