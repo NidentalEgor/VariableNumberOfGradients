@@ -6,11 +6,8 @@
 #define VARIABLENUMBEROFGRADIENTS_VNG_H
 
 
-#include <iostream>
-#include <limits>
 #include <vector>
 #include <array>
-#include <tuple>
 
 #include "Logger.h"
 #include "../Lib/EasyBMP/EasyBMP.h"
@@ -67,6 +64,18 @@ public:
 
         Log( std::string( "width = " ) + std::to_string( picture.TellWidth() ) + " height = " + std::to_string( picture.TellHeight() ) );
 
+        inner_picture.resize( picture.TellHeight() );
+        for( size_t i = 0; i < picture.TellHeight(); i++ )
+        {
+            inner_picture[i].resize( picture.TellWidth() );
+            for( size_t j = 0; j < picture.TellWidth(); j++ )
+            {
+                const auto original_pixel = picture.GetPixel( j, i );
+                inner_picture[i][j][0] = original_pixel.Red;
+                inner_picture[i][j][1] = original_pixel.Green;
+                inner_picture[i][j][2] = original_pixel.Blue;
+            }
+        }
         result_picture.SetSize( picture.TellWidth(), picture.TellHeight() );
     }
 
@@ -93,6 +102,7 @@ public:
 
 private:
     BMP picture;
+	std::vector<std::vector<std::array<uint8_t, 3>>> inner_picture;
     BMP result_picture;
 };
 
